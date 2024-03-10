@@ -1,27 +1,26 @@
-## Notes:
+## Catatan:
 
-Login needed to access create/delete features.
+Login diperlukan untuk mengakses fitur membuat/menghapus.
 
-## Launch instructions:
+## Instruksi Peluncuran:
 
--   If you do not have composer installed on your system, install it (installation instructions [here](https://getcomposer.org/download)).
--   Clone this repository or download it as a ZIP package.
--   Open it with Visual Studio Code or your preferred code editor.
--   Create a fresh schema in your MySQL server.
--   Rename **'.env.example'** file to **'.env'** inside of the project's root directory and configure the database information.
--   Using GitBash, CMD or other terminal in your code editor:
-    -   if composer is installed locally: run **php <'path to composer.phar file location'>/composer.phar install**
-    -   if composer is installed on your system globally: run **composer install**
--   Run **php artisan key:generate**
--   Run **php artisan migrate** to create tables.
--   Run **php artisan db:seed** to fill tables with data.
--   Run **php artisan serve**
--   Follow the link that appears in the terminal after running 'php artisan serve'.
+-   Jika Anda belum menginstal composer di sistem Anda, instal terlebih dahulu (petunjuk instalasi [di sini](https://getcomposer.org/download)).
+-   Klona repositori ini atau unduh sebagai paket ZIP.
+-   Buka dengan Visual Studio Code atau editor kode pilihan Anda.
+-   Buat skema baru di server MySQL Anda.
+-   Ganti nama file **'.env.example'** menjadi **'.env'** di dalam direktori utama proyek dan konfigurasikan informasi database.
+-   Menggunakan GitBash, CMD, atau terminal lain di editor kode Anda:
+    -   jika composer terinstal secara lokal: jalankan **php <'lokasi file composer.phar'>/composer.phar install**
+    -   jika composer terinstal secara global di sistem Anda: jalankan **composer install**
+-   Jalankan **php artisan key:generate**
+-   Jalankan **php artisan migrate** untuk membuat tabel.
+-   Jalankan **php artisan db:seed** untuk mengisi tabel dengan data.
+-   Jalankan **php artisan serve**
+-   Ikuti tautan yang muncul di terminal setelah menjalankan 'php artisan serve'.
 
-## Test login details:
+## Detail Login Uji Coba:
 
 E-mail: admin@admin.com
 Password: 123456789
 
-**Note:** Only works if **php artisan db:seed** step was not skipped.
-
+**Catatan:** Hanya berfungsi jika langkah **php artisan db:seed** tidak dilewati.
