@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Forms\SupirForm;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Supir;
