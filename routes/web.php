@@ -4,40 +4,22 @@ use App\Http\Controllers\API\SupirController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application.
-| These routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
 Route::get('/', function () {
-    return view('home');
-})->name('home');
-
-Auth::routes(['register' => true]);
+    return redirect()->route('supir.index');
+});
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/', function () {
-        return redirect()->route('supir.index');
-    });
-
     Route::get('/supir', [SupirController::class, 'index'])->name('supir.index');
     Route::get('/supir/create', [SupirController::class, 'create'])->name('supir.create');
     Route::post('/supir', [SupirController::class, 'store'])->name('supir.store');
     Route::get('/supir/register', [SupirController::class, 'showRegistrationForm'])->name('supir.register');
-    Route::post('/supir/register', [SupirController::class, 'register'])->name('supir.register.submit');
+    Route::post('/supir/register', [SupirController::class, 'register']);
     Route::delete('/supir/{id}', [SupirController::class, 'destroy'])->name('supir.destroy');
 });
 
+Auth::routes(['register' => true]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-
 
 Route::any('/{any}', function () {
     return view('404');

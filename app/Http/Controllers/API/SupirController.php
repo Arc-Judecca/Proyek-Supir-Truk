@@ -8,8 +8,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Supir;
 use Kris\LaravelFormBuilder\FormBuilder;
-use Illuminate\Support\Facades\DB;
-use App\Rules\TwoWords;
+use Illuminate\Support\Facades\Storage; // Tambahkan penggunaan Fasade Storage
+use Illuminate\Support\Facades\Hash; // Tambahkan penggunaan Fasade Hash
 
 class SupirController extends Controller
 {
@@ -25,6 +25,7 @@ class SupirController extends Controller
             ])
             ->with('supirsJson', $supirsJson);
     }
+    
     public function create(FormBuilder $formBuilder)
     {
         $form = $formBuilder->create(SupirForm::class, [
@@ -34,60 +35,76 @@ class SupirController extends Controller
 
         return view('supir.create', compact('form'));
     }
+    
     public function store(Request $request)
-{
-    $request->validate([
-        'id_supir' => 'required',
-        'nama_supir' => 'required',
-        'nota_pdf' => 'required|mimes:pdf|max:2048', // Validasi untuk file PDF
-    ]);
-
-    // Proses penyimpanan data supir
-    $data = $request->only(['id_supir', 'nama_supir']);
-    $supir = Supir::create($data);
-
-    // Proses unggahan file nota
-    if ($request->hasFile('nota_pdf')) {
-        $file = $request->file('nota_pdf');
-        $fileName = 'nota_' . time() . '.' . $file->getClientOriginalExtension();
-        $filePath = $file->storeAs('nota', $fileName); // Simpan file ke dalam penyimpanan
-
-        // Simpan lokasi file ke dalam database
-        $supir->nota_path = $filePath;
-        $supir->save();
-    }
-
-    return redirect()->route('supir.index')->with('success', 'Data supir berhasil ditambahkan.');
-}
-
-    
-public function show($id)
-{
-    
-    $supir = Supir::findOrFail($id);
-
-    
-    $notaUrl = $supir->nota_path ? Storage::url('nota/' . $supir->nota_path) : null;
-
-    
-    $supir->nota_url = $notaUrl;
-
-    
-    return response()->json($supir);
-}
-
-    public function update(Request $request, $id)
     {
         $request->validate([
             'id_supir' => 'required',
             'nama_supir' => 'required',
-            'nota_path' => 'required',
+            'email' => 'required|string|email|max:255|unique:users,email', // Validasi email unik
+            'password' => 'required|string|min:8|confirmed',
+            'nota_pdf' => 'required|mimes:pdf|max:2048', // Validasi untuk file PDF
         ]);
 
-        $supir = Supir::findOrFail($id);
-        $supir->update($request->all());
+        // Proses penyimpanan data supir
+        $data = $request->only(['id_supir', 'nama_supir']);
 
-        return response()->json($supir, 200);
+        // Proses unggahan file nota
+        if ($request->hasFile('nota_pdf')) {
+            $file = $request->file('nota_pdf');
+            $fileName = 'nota_' . time() . '.' . $file->getClientOriginalExtension();
+            $filePath = $file->storeAs('nota', $fileName); // Simpan file ke dalam penyimpanan
+
+            // Simpan lokasi file ke dalam database
+            $data['nota_path'] = $filePath;
+        }
+
+        // Buat user supir baru
+        $user = User::create([
+            'name' => $request->nama_supir, // Ganti 'nama' menjadi 'nama_supir'
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Atur role user sebagai supir
+        $user->assignRole('supir');
+
+        // Simpan data supir dan user
+        $supir = Supir::create($data);
+
+        return redirect()->route('supir.index')->with('success', 'Data supir berhasil ditambahkan.');
+    }
+
+    // Sisipkan fungsi-fungsi lainnya seperti show, update, destroy, dan showRegistrationForm
+
+    public function showRegistrationForm()
+    {
+        return view('supir.register');
+    }
+
+    public function register(Request $request)
+    {
+        // Validasi data registrasi
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => 'required|string|min:8|confirmed',
+        ]);
+
+        // Buat user supir baru
+        $user = User::create([
+            'name' => $request->nama,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        // Atur role user sebagai supir
+        $user->assignRole('supir');
+
+        $user->save();
+
+        // Redirect ke halaman index atau halaman lain yang sesuai
+        return redirect()->route('supir.index')->with('success', 'Driver registered successfully.');
     }
 
     public function destroy($id)
@@ -95,37 +112,8 @@ public function show($id)
     $supir = Supir::findOrFail($id);
     $supir->delete();
 
+    // Redirect kembali ke halaman indeks dengan pesan sukses
     return redirect()->route('supir.index')->with('success', 'Data supir berhasil dihapus.');
-}
-
-public function showRegistrationForm()
-{
-    return view('supir.register');
-}
-
-public function register(Request $request)
-{
-    // Validasi data registrasi
-    $request->validate([
-        'nama' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|string|min:8|confirmed',
-    ]);
-
-    // Buat user supir baru
-    $user = User::create([
-        'name' => $request->nama,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
-    ]);
-
-    // Atur role user sebagai supir
-    $user->assignRole('supir');
-
-    $user->save();
-
-    // Redirect ke halaman index atau halaman lain yang sesuai
-    return redirect()->route('supir.index')->with('success', 'Driver registered successfully.');
 }
 
 }

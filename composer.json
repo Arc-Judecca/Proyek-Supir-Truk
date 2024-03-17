@@ -13,7 +13,8 @@
         "kyslik/column-sortable": "^6.4",
         "laravel/framework": "^8.12",
         "laravel/tinker": "^2.5",
-        "laravel/ui": "^3.2"
+        "laravel/ui": "^3.2",
+        "spatie/laravel-permission": "^6.4"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

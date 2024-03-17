@@ -17,6 +17,18 @@ class SupirForm extends Form
                 'label' => 'Nama Supir',
                 'rules' => 'required',
             ])
+            ->add('email', 'email', [
+                'label' => 'Email',
+                'rules' => 'required|email|unique:users,email',
+            ])
+            ->add('password', 'password', [
+                'label' => 'Password',
+                'rules' => 'required|min:8|confirmed',
+            ])
+            ->add('password_confirmation', 'password', [
+                'label' => 'Confirm Password',
+                'rules' => 'required|min:8',
+            ])
             ->add('nota_pdf', 'file', [
                 'label' => 'Upload Nota (PDF)',
                 'attr' => ['accept' => '.pdf'],
@@ -25,4 +37,3 @@ class SupirForm extends Form
             ->add('submit', 'submit', ['label' => 'Tambah Supir']);
     }
 }
-

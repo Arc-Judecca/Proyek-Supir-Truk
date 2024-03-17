@@ -10,7 +10,6 @@
                     <div class="card-body">
                         <div style="margin-bottom: 20px;">
                             <a href="{{ route('supir.create') }}" class="btn btn-success">Add Driver</a>
-                            <a href="{{ route('supir.register') }}" class="btn btn-primary">Register Driver</a>
                         </div>
 
                         @if (session('status_success'))
