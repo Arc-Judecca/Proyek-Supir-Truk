@@ -9,5 +9,5 @@ class Supir extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id_supir', 'nama_supir', 'url_api'];
+    protected $fillable = ['id_supir', 'nama_supir', 'nota_path'];
 }

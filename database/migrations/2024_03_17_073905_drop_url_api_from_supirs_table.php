@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddNotaToSupirsTable extends Migration
+class DropUrlApiFromSupirsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,11 +12,12 @@ class AddNotaToSupirsTable extends Migration
      * @return void
      */
     public function up()
-    {
-        Schema::table('supirs', function (Blueprint $table) {
-            $table->string('nota_path')->nullable()->after('url_api');
-        });
-    }
+{
+    Schema::table('supirs', function (Blueprint $table) {
+        $table->dropColumn('url_api');
+    });
+}
+
 
     /**
      * Reverse the migrations.
@@ -26,7 +27,7 @@ class AddNotaToSupirsTable extends Migration
     public function down()
     {
         Schema::table('supirs', function (Blueprint $table) {
-            $table->dropColumn('nota_path');
+            //
         });
     }
 }

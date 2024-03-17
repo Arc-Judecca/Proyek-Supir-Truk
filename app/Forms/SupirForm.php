@@ -1,6 +1,6 @@
 <?php
 
-namespace app\Forms;
+namespace App\Forms;
 
 use Kris\LaravelFormBuilder\Form;
 
@@ -17,6 +17,12 @@ class SupirForm extends Form
                 'label' => 'Nama Supir',
                 'rules' => 'required',
             ])
+            ->add('nota_pdf', 'file', [
+                'label' => 'Upload Nota (PDF)',
+                'attr' => ['accept' => '.pdf'],
+                'rules' => 'nullable|mimes:pdf|max:2048',
+            ])
             ->add('submit', 'submit', ['label' => 'Tambah Supir']);
     }
 }
+

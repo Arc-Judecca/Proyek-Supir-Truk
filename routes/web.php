@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
-Auth::routes(['register' => false]);
+Auth::routes(['register' => true]);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/', function () {
@@ -29,10 +29,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/supir', [SupirController::class, 'index'])->name('supir.index');
     Route::get('/supir/create', [SupirController::class, 'create'])->name('supir.create');
     Route::post('/supir', [SupirController::class, 'store'])->name('supir.store');
+    Route::get('/supir/register', [SupirController::class, 'showRegistrationForm'])->name('supir.register');
+    Route::post('/supir/register', [SupirController::class, 'register'])->name('supir.register.submit');
     Route::delete('/supir/{id}', [SupirController::class, 'destroy'])->name('supir.destroy');
 });
 
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
 
 Route::any('/{any}', function () {
     return view('404');
