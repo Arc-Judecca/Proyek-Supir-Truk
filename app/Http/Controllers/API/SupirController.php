@@ -11,6 +11,7 @@ use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Storage; // Tambahkan penggunaan Fasade Storage
 use Illuminate\Support\Facades\Hash; // Tambahkan penggunaan Fasade Hash
 use App\Forms\SupirEditForm;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 
 
@@ -174,6 +175,24 @@ class SupirController extends Controller
     return redirect()->route('supir.index')->with('success', 'Driver data successfully updated.');
 }
     
+// Metode untuk mendapatkan data user login
+public function getUser()
+{
+    $user = Auth::user();
+    return response()->json($user);
+}
+
+// Metode untuk mendapatkan data nota PDF
+public function getNota($id)
+{
+    $supir = Supir::findOrFail($id);
+    $notaPath = $supir->nota_path;
+    if (!$notaPath) {
+        return response()->json(['message' => 'Nota PDF not found'], 404);
+    }
+    // Misalnya, kita kembalikan file PDF sebagai response
+    return response()->file(storage_path('app/' . $notaPath));
+}
 
 
     public function destroy($id)

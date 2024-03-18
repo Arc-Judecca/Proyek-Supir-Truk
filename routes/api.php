@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\API\SupirController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
-Route::get('/supir', [SupirController::class, 'index']);
+// Rute untuk mendapatkan data user login
+Route::get('/user', [SupirController::class, 'getUser']);
+
+// Rute untuk mendapatkan data nota PDF
+Route::get('/supir/{id}/nota', [SupirController::class, 'getNota']);
