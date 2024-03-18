@@ -14,6 +14,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/supir', [SupirController::class, 'store'])->name('supir.store');
     Route::get('/supir/register', [SupirController::class, 'showRegistrationForm'])->name('supir.register');
     Route::post('/supir/register', [SupirController::class, 'register']);
+    Route::get('/supir/{id}/edit', [SupirController::class, 'edit'])->name('supir.edit');
+    Route::put('/supir/{id}', [SupirController::class, 'update'])->name('supir.update');
     Route::delete('/supir/{id}', [SupirController::class, 'destroy'])->name('supir.destroy');
 });
 

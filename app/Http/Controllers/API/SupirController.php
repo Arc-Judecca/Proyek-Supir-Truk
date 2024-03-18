@@ -10,6 +10,9 @@ use App\Models\Supir;
 use Kris\LaravelFormBuilder\FormBuilder;
 use Illuminate\Support\Facades\Storage; // Tambahkan penggunaan Fasade Storage
 use Illuminate\Support\Facades\Hash; // Tambahkan penggunaan Fasade Hash
+use App\Forms\SupirEditForm;
+use Illuminate\Support\Facades\Log;
+
 
 class SupirController extends Controller
 {
@@ -106,6 +109,72 @@ class SupirController extends Controller
         // Redirect ke halaman index atau halaman lain yang sesuai
         return redirect()->route('supir.index')->with('success', 'Driver registered successfully.');
     }
+
+    
+
+    public function edit($id)
+    {
+        $supir = Supir::findOrFail($id);
+        $form = \FormBuilder::create(SupirEditForm::class, [
+            'method' => 'PUT',
+            'url' => route('supir.update', $supir->id),
+            'model' => $supir,
+        ]);
+    
+        return view('supir.edit', compact('form'));
+    }
+    
+
+
+
+    public function update(Request $request, $id)
+{
+    $supir = Supir::findOrFail($id);
+
+    $request->validate([
+        'id_supir' => 'required',
+        'nama_supir' => 'required',
+        'email' => 'required|string|email|max:255|unique:users,email,', // Ensure email uniqueness, except for the current user
+        'password' => 'nullable|string|min:8|confirmed',
+        'nota_pdf' => 'nullable|mimes:pdf|max:2048', // Optional PDF note
+    ]);
+
+    // Update driver data
+    $supir->update([
+        'id_supir' => $request->id_supir,
+        'nama_supir' => $request->nama_supir,
+        // Add other attributes as needed for driver data changes
+    ]);
+    
+    // Update the password if provided in the form
+    if ($request->password) {
+        $user = $supir->user;
+
+        // Check if the associated user exists
+        if ($user) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+        } else {
+            // Handle the case where the associated user does not exist
+            // Log an error, throw an exception, or handle it according to your application's logic
+            // For now, let's log an error message
+            Log::error('User not found for Supir ID: ' . $supir->id);
+        }
+    }
+
+    // Save the new PDF file location if a new note file is uploaded
+    if ($request->hasFile('nota_pdf')) {
+        $file = $request->file('nota_pdf');
+        $fileName = 'nota_' . time() . '.' . $file->getClientOriginalExtension();
+        $filePath = $file->storeAs('nota', $fileName);
+        $supir->nota_path = $filePath;
+        $supir->save();
+    }
+
+    return redirect()->route('supir.index')->with('success', 'Driver data successfully updated.');
+}
+    
+
 
     public function destroy($id)
 {

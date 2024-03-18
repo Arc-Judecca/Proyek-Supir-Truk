@@ -24,35 +24,25 @@
                                     <th>ID Supir</th>
                                     <th>Nama Supir</th>
                                     <th>Status</th>
-                                    @auth
-                                        <th>Actions</th>
-                                    @endauth
+                                    <th>Actions</th> <!-- Tambah kolom Actions -->
                                 </tr>
                             </thead>
                             <tbody>
-                            @foreach ($supirs as $supir)
-                                <tr>
-                                    <td>{{ $supir->id_supir }}</td>
-                                    <td>{{ $supir->nama_supir }}</td>
-                                    <td>{{ $supir->printed ? 'Printed' : 'Not Printed' }}</td>
-                                    <td>
-                                        @if ($supir->nota_path)
-                                        <a href="{{ asset('storage/' . $supir->nota_path) }}" download>Lihat Nota</a>
-                                        @else
-                                            Nota belum diunggah
-                                        @endif
-                                    </td>
-                                    @auth
+                                @foreach ($supirs as $supir)
+                                    <tr>
+                                        <td>{{ $supir->id_supir }}</td>
+                                        <td>{{ $supir->nama_supir }}</td>
+                                        <td>{{ $supir->printed ? 'Printed' : 'Not Printed' }}</td>
                                         <td>
-                                            <form action="{{ route('supir.destroy', $supir->id) }}" method="POST">
+                                            <a href="{{ route('supir.edit', $supir->id) }}" class="btn btn-primary">Update</a>
+                                            <form action="{{ route('supir.destroy', $supir->id) }}" method="POST" style="display: inline;">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
                                             </form>
                                         </td>
-                                    @endauth
-                                </tr>
-                            @endforeach
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

@@ -10,4 +10,9 @@ class Supir extends Model
     use HasFactory;
 
     protected $fillable = ['id_supir', 'nama_supir', 'nota_path'];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
