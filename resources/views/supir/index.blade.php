@@ -23,16 +23,16 @@
                                 <tr>
                                     <th>ID Supir</th>
                                     <th>Nama Supir</th>
-                                    <th>Status</th>
+                                    <th>Username</th>
                                     <th>Actions</th> <!-- Tambah kolom Actions -->
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($supirs as $supir)
                                     <tr>
-                                        <td>{{ $supir->id_supir }}</td>
-                                        <td>{{ $supir->nama_supir }}</td>
-                                        <td>{{ $supir->printed ? 'Printed' : 'Not Printed' }}</td>
+                                        <td>{{ $supir->id }}</td>
+                                        <td>{{ $supir->nama }}</td>
+                                        <td>{{ $supir->username }}</td>
                                         <td>
                                             <a href="{{ route('supir.edit', $supir->id) }}" class="btn btn-primary">Update</a>
                                             <form action="{{ route('supir.destroy', $supir->id) }}" method="POST" style="display: inline;">

@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Supir extends Model
+
+class nota extends Model
 {
     use HasFactory;
-
-    protected $fillable = ['nama', 'username', 'password'];
+    protected $fillable = ['nota_path','tanggal'];
 
 }

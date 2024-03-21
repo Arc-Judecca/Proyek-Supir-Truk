@@ -21,6 +21,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css"/>
+
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/js/bootstrap-datepicker.js"></script>
 </head>
 
 <body>
@@ -40,11 +48,11 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <!-- Left Side Of Navbar -->
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item {{ Request::routeIs('home') ? 'active' : '' }}">
-                                <a class="nav-link" href="/">Home</a>
+                            <li class="nav-item {{ Request::routeIs('supir.index') ? 'active' : '' }}">
+                                <a class="nav-link" href="/">Supir</a>
                             </li>
                             <li class="nav-item {{ Request::routeIs('supir.index') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('supir.index') }}">Supir</a>
+                                <a class="nav-link" href="{{ route('supir.nota') }}">Nota</a>
                             </li>
                         </ul>
 

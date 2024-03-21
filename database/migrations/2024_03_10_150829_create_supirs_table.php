@@ -15,9 +15,9 @@ class CreateSupirsTable extends Migration
     {
         Schema::create('supirs', function (Blueprint $table) {
             $table->id();
-            $table->string('id_supir')->unique();
-            $table->string('nama_supir');
-            $table->string('url_api');
+            $table->string('nama');
+            $table->string('username')->unique();
+            $table->string('password');
             $table->timestamps();
         });
     }

@@ -13,9 +13,12 @@ use App\Http\Controllers\API\SupirController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    return $request->user();
+});
 // Rute untuk mendapatkan data user login
-Route::get('/user', [SupirController::class, 'getUser']);
+Route::get('/user/{id}', [SupirController::class, 'getUser']);
+Route::get('/supir/{id}', [SupirController::class, 'getSupir']);
 
 // Rute untuk mendapatkan data nota PDF
 Route::get('/supir/{id}/nota', [SupirController::class, 'getNota']);
